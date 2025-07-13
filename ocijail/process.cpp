@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <filesystem>
+#include <sstream>
 
 #include "ocijail/process.h"
 #include "ocijail/tty.h"
@@ -198,8 +199,9 @@ void process::validate() {
             fs::is_regular_file(workdir_cmd)) {
             return;
         }
-        throw std::system_error{
-            ENOENT, std::system_category(), args_[0] + " not found in $PATH"};
+        std::stringstream ss;
+        ss << "'" << args_[0] << "' not found in $PATH";
+        throw std::system_error{ENOENT, std::system_category(), ss.str()};
     }
 }
 
