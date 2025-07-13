@@ -110,7 +110,7 @@ std::vector<iovec> jail::get_iovec(config& jconf, std::array<char, 1024>& errbuf
         } else if (auto p = std::get_if<int32_t>(&val)) {
             jiov.emplace_back(
                 iovec{reinterpret_cast<void*>(p), sizeof(int32_t)});
-        } else if (auto p = std::get_if<std::monostate>(&val)) {
+        } else if (std::get_if<std::monostate>(&val)) {
             jiov.emplace_back(iovec{nullptr, 0});
         } else if (auto p = std::get_if<ns>(&val)) {
             jiov.emplace_back(
